@@ -121,7 +121,7 @@ def mlp_forward(params, x):
 # Step 13 - log_softmax_logits
 def log_softmax_logits(logits):
     # TODO: return the numerically stable log-softmax of logits along the last axis.
-    return jax.nn.log_softmax(logits)
+    return jnp.log(jax.nn.softmax(logits))
 
 # Step 14 - cross_entropy_loss
 def cross_entropy_loss(logits, one_hot_targets):

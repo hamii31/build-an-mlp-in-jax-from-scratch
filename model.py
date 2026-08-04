@@ -138,8 +138,20 @@ def cross_entropy_loss(logits, one_hot_targets):
         sum_b += sum_c
     return 1/B * sum_b
 
-# Step 15 - classification_accuracy (not yet solved)
-# TODO: implement
+# Step 15 - classification_accuracy
+import jax.numpy as jnp
+
+def classification_accuracy(logits, labels):
+    """Fraction of rows where argmax(logits) equals the integer label."""
+    # TODO: compute predicted classes from logits and compare to labels
+    B = logits.shape[0]
+
+    sum = []
+    for i in range(B):
+        y_hat = jnp.argmax(logits[i])
+        sum.append(y_hat == labels[i])
+
+    return jnp.abs(sum.count(1) / len(sum))
 
 # Step 16 - loss_fn_of_params (not yet solved)
 # TODO: implement

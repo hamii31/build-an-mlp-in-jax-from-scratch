@@ -164,6 +164,7 @@ def loss_fn_of_params(params, x, one_hot_targets):
 import jax
 import jax.numpy as jnp
 
+jax.config.update('jax_enable_x64', True)
 def compute_param_grads(params, x, one_hot_targets):
     # TODO: return grad of loss_fn_of_params w.r.t. params using jax.grad
     grads = jax.grad(loss_fn_of_params, argnums=0)

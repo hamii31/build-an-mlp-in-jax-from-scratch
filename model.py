@@ -170,8 +170,44 @@ def compute_param_grads(params, x, one_hot_targets):
     grads = jax.grad(loss_fn_of_params, argnums=0)
     return grads(params, x, one_hot_targets)
 
-# Step 18 - sgd_update_params (not yet solved)
-# TODO: implement
+# Step 18 - sgd_update_params
+import jax
+import jax.numpy as jnp
+
+def sgd_update_params(params, grads, learning_rate):
+    # TODO: apply one SGD step to every parameter using its gradient and a learning rate
+    list_dicts = []
+
+    for layer in range(len(params)):
+        new_w_params = []
+        new_b_params = []
+
+        w_params = params[layer]['W']
+        b_params = params[layer]['b']
+
+        w_grads = grads[layer]['W']
+        b_grads = grads[layer]['b']
+
+        if not jnp.any(w_grads) and not jnp.any(b_grads):
+            return params
+
+        n = len(w_params)
+        for i in range(n):
+            new_w_params.append(w_params[i] - (w_grads[i] * learning_rate))
+
+            if i < len(b_params):
+                new_b_params.append(b_params[i] - (b_grads[i] * learning_rate))
+
+            if n == 1 and len(b_params) != 1:
+                new_b_params.append(b_params[i+1] - (b_grads[i+1] * learning_rate))
+        
+            new_dict = {
+                'W':jnp.array(new_w_params),
+                'b':jnp.array(new_b_params)
+            }
+                
+        list_dicts.append(new_dict)
+    return list_dicts
 
 # Step 19 - training_step (not yet solved)
 # TODO: implement
